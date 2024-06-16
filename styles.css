@@ -1,0 +1,624 @@
+/* Estilos generales del proyecto */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f3f4f8; /* Color de fondo claro */
+  font-size: 12px; /* Ajusta el tamaño de la fuente de todo el proyecto */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+  background-color: #343940; /* Color de fondo oscuro */
+  color: #e0e0e0; /* Color de texto claro */
+}
+
+/* Estilos para la sidebar */
+.sidebar {
+  height: 100%;
+  width: 180px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #2f3b47;
+  padding-top: 20px;
+  z-index: 1001;
+  transition: background-color 0.3s, color 0.3s, width 0.3s;
+}
+
+.sidebar-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar-logo {
+  width: 80%;
+  max-width: 100px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.sidebar.collapsed {
+  width: 50px; /* Ancho reducido cuando está colapsada */
+}
+
+.sidebar.collapsed .sidebar-logo {
+  width: 30px; /* Ajusta el tamaño del logo cuando la sidebar está colapsada */
+}
+
+.sidebar a {
+  padding: 15px 20px;
+  text-decoration: none;
+  font-size: 12px;
+  color: #ccd7df;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar.collapsed a {
+  justify-content: center; /* Centra los iconos cuando la barra está colapsada */
+  padding: 15px 10px; /* Ajusta el padding */
+}
+
+.sidebar.collapsed a i {
+  margin-right: 0; /* Quita el margen derecho de los iconos cuando está colapsada */
+  font-size: 24px; /* Ajusta el tamaño de los iconos cuando está colapsada */
+}
+
+.sidebar a i {
+  margin-right: 10px;
+  font-size: 24px; /* Ajusta este valor para agrandar los iconos */
+}
+
+.sidebar.collapsed .link-text {
+  display: none; /* Oculta el texto de los enlaces cuando está colapsada */
+}
+
+.sidebar a:hover {
+  background-color: transparent; /* Quita el cambio de color de fondo */
+  color: #6f8faf; /* Nuevo color del texto al pasar el ratón (puedes ajustar este color) */
+}
+
+.sidebar.dark-mode {
+  background-color: #24292e; /* Color de fondo de la barra lateral en modo oscuro */
+}
+
+.sidebar.dark-mode a {
+  color: #e0e0e0; /* Color de texto de los enlaces en la barra lateral en modo oscuro */
+}
+
+.sidebar.dark-mode a:hover {
+  background-color: transparent; /* Quita el cambio de color de fondo */
+  color: #a1c1df; /* Nuevo color del texto al pasar el ratón en modo oscuro (puedes ajustar este color) */
+}
+
+/* Estilos para la topbar */
+.topbar {
+  width: calc(
+    100% - 180px
+  ); /* Ajusta el ancho de la topbar para que considere la sidebar */
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 180px; /* Ajusta la posición de la topbar */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 15px 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s, width 0.3s, left 0.3s;
+}
+
+.topbar.collapsed {
+  width: calc(
+    100% - 50px
+  ); /* Ajusta el ancho de la topbar cuando la sidebar está colapsada */
+  left: 50px;
+}
+
+.topbar.dark-mode {
+  background-color: #37404a;
+  color: #ffffff;
+}
+
+.topbar .search-container {
+  position: relative;
+  width: 300px; /* Ajusta el ancho del contenedor de búsqueda */
+  margin-right: 20px;
+}
+
+.topbar .search-container .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 30px;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.topbar .search-container input.custom-input {
+  margin-left: 20px; /* Agrega 2px de margen a la izquierda */
+  width: 100%;
+  padding: 8px 8px 8px 30px; /* Ajusta el padding para dejar espacio para el icono */
+  font-size: 14px; /* Ajusta el tamaño de la fuente */
+  border: none; /* Quita el borde */
+  border-radius: 5px;
+  background-color: #f1f1f1; /* Color de fondo con contraste ligero */
+  transition: background-color 0.3s, color 0.3s;
+  width: 200px;
+}
+
+.topbar .search-container input.custom-input:focus {
+  outline: none; /* Elimina el borde azul al enfocar */
+  background-color: #e0e0e0; /* Contraste ligero al enfocar */
+}
+
+.topbar.dark-mode .search-container input.custom-input {
+  background-color: #555; /* Color de fondo con contraste ligero en modo oscuro */
+  color: #e0e0e0;
+}
+
+.topbar.dark-mode .search-container input.custom-input:focus {
+  background-color: #666; /* Contraste ligero al enfocar en modo oscuro */
+}
+
+.topbar.dark-mode .search-container .search-icon {
+  color: #bbb;
+}
+
+/* Botón de tema */
+button#theme-toggle {
+  margin-left: 20px !important; /* Agrega 2px de margen a la izquierda */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+button#theme-toggle:focus {
+  outline: none;
+}
+
+button#theme-toggle i {
+  color: #474e51;
+  transition: color 0.3s;
+}
+
+button#theme-toggle.dark-mode i {
+  color: #ffffff;
+}
+
+/* Botón del menú */
+button#menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  margin-left: 0; /* Ajusta este valor según sea necesario */
+}
+
+button#menu-toggle:focus {
+  outline: none;
+}
+
+button#menu-toggle i {
+  color: #474e51;
+  transition: color 0.3s;
+}
+
+button#menu-toggle.dark-mode i {
+  color: #ffffff;
+}
+
+/* Estilos para el contenido */
+.content {
+  margin-left: 180px; /* Ajusta el margen del contenido principal para que considere la sidebar */
+  padding-top: 70px;
+  padding: 20px;
+  transition: background-color 0.3s, color 0.3s, margin-left 0.3s;
+}
+
+.content.collapsed {
+  margin-left: 50px; /* Ajusta el margen del contenido principal cuando la barra lateral está colapsada */
+}
+
+.content.dark-mode {
+  background-color: #343940;
+  color: #e0e0e0;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+  transition: background-color 0.3s, color 0.3s;
+  margin-top: 20px; /* Agrega espacio entre las tarjetas y la topbar */
+  border: 1px solid #ddd; /* Agrega un borde */
+}
+
+body.dark-mode .card {
+  background-color: #37404a;
+  color: #ffffff;
+  border: 1px solid #444; /* Agrega un borde en modo oscuro */
+}
+
+/* Estilos para los inputs */
+.custom-input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f1f1f1; /* Color de fondo con contraste ligero */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-input:focus {
+  outline: none; /* Elimina el borde azul al enfocar */
+  background-color: #e0e0e0; /* Contraste ligero al enfocar */
+}
+
+body.dark-mode .custom-input {
+  background-color: #555; /* Color de fondo con contraste ligero en modo oscuro */
+  color: #e0e0e0;
+}
+
+body.dark-mode .custom-input:focus {
+  background-color: #666; /* Contraste ligero al enfocar en modo oscuro */
+}
+
+/* Estilos específicos para el formulario */
+.form-horizontal {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-horizontal fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.form-horizontal legend {
+  font-weight: bold;
+  padding: 0 10px;
+}
+
+.form-horizontal label {
+  flex: 1 0 200px; /* Ajusta el ancho del label */
+  text-align: right; /* Alinea el texto a la derecha */
+  margin-right: 10px; /* Espacio entre el label y el input */
+}
+
+.form-horizontal input,
+.form-horizontal textarea,
+.form-horizontal select {
+  flex: 3 0 300px; /* Ajusta el ancho del input */
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+body.dark-mode .form-horizontal input,
+body.dark-mode .form-horizontal textarea,
+body.dark-mode .form-horizontal select {
+  background-color: #555;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+body.dark-mode .form-horizontal label {
+  color: #e0e0e0; /* Color claro para los labels */
+}
+
+/* Estilos para los botones */
+.submit-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #009879;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #007a63;
+}
+
+.submit-button:focus {
+  outline: none;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+}
+
+.styled-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background-color: #ffffff; /* Fondo claro por defecto */
+  color: #333333; /* Color del texto */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode .styled-table {
+  background-color: #2f3b47; /* Fondo oscuro en modo oscuro */
+  color: #e0e0e0; /* Color del texto en modo oscuro */
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.styled-table thead tr {
+  background-color: #f3f4f8; /* Fondo claro para el encabezado */
+  color: #333333;
+  text-align: left;
+}
+
+body.dark-mode .styled-table thead tr {
+  background-color: #37404a; /* Fondo oscuro para el encabezado en modo oscuro */
+  color: #e0e0e0;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+body.dark-mode .styled-table tbody tr {
+  border-bottom: 1px solid #444444;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f9f9f9; /* Fondo claro para filas pares */
+}
+
+body.dark-mode .styled-table tbody tr:nth-of-type(even) {
+  background-color: #353b45; /* Fondo oscuro para filas pares en modo oscuro */
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879; /* Línea final */
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879; /* Color del texto en la fila activa */
+}
+
+/* Responsividad para la tabla */
+@media (max-width: 600px) {
+  .styled-table thead {
+    display: none;
+  }
+
+  .styled-table,
+  .styled-table tbody,
+  .styled-table tr,
+  .styled-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .styled-table tr {
+    margin-bottom: 15px;
+  }
+
+  .styled-table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .styled-table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+
+/* Estilos para secciones ocultas */
+.hidden {
+  display: none;
+}
+
+.search-apoderado {
+  margin-bottom: 20px;
+}
+
+.search-apoderado label {
+  margin-right: 10px;
+}
+
+.search-apoderado input {
+  margin-right: 10px;
+}
+
+/* Estilo para los elementos h2 en las secciones de contenido */
+.content-section h2 {
+  margin-top: 20px; /* Ajusta este valor según la altura de tu topbar */
+}
+
+/* Estilos específicos para el selector de alumnos en el test vocacional */
+#student-select {
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #f1f1f1; /* Fondo claro */
+  color: #333; /* Texto oscuro */
+}
+
+body.dark-mode #student-select {
+  background-color: #555; /* Fondo oscuro */
+  color: #e0e0e0; /* Texto claro */
+  border: 1px solid #444; /* Borde oscuro */
+}
+
+#test-container,
+#result-container {
+  margin-top: 20px;
+}
+
+#next-btn,
+#retry-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #009879;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#next-btn:hover,
+#retry-btn:hover {
+  background-color: #007a63;
+}
+
+.hidden {
+  display: none;
+}
+
+#result-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.form-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 600px;
+  margin: 0 auto; /* Centrará el formulario horizontalmente */
+  padding: 20px;
+  border: 1px solid #ddd; /* Añadir un borde alrededor del formulario */
+  border-radius: 10px; /* Bordes redondeados */
+  background-color: #fff; /* Fondo blanco */
+}
+
+form fieldset {
+  border: 1px solid #ddd; /* Bordes alrededor de los fieldsets */
+  border-radius: 5px; /* Bordes redondeados */
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+form legend {
+  font-weight: bold;
+  padding: 0 10px;
+}
+
+form label {
+  margin-top: 10px;
+}
+
+form input[type="file"] {
+  padding: 0;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%; /* Para que los campos ocupen todo el ancho disponible */
+}
+
+body.dark-mode .form-vertical {
+  background-color: #343940;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+body.dark-mode form fieldset {
+  border: 1px solid #555;
+}
+
+body.dark-mode form legend {
+  color: #e0e0e0;
+}
+
+body.dark-mode form label {
+  color: #e0e0e0;
+}
+
+body.dark-mode form input,
+body.dark-mode form textarea,
+body.dark-mode form select {
+  background-color: #555;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+body.dark-mode form input:focus,
+body.dark-mode form textarea:focus,
+body.dark-mode form select:focus {
+  background-color: #666;
+  border: 1px solid #666;
+}
+
+/* Estilos para los gráficos */
+canvas {
+  max-width: 600px;
+  margin: 20px auto;
+  display: block;
+}
+
+/* Estilos para los contenedores de gráficos */
+.chart-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chart-container h3 {
+  margin-bottom: 10px;
+}
+
+.topbar .weather-marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 480px;
+}
+
+.topbar .weather-info {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 140s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
