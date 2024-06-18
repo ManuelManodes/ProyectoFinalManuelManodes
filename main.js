@@ -1,19 +1,17 @@
-document.addEventListener("DOMContentLoaded", () => {
+$(document).ready(() => {
   console.log("JavaScript is loaded and ready to add functionality.");
 
-  const form = document.getElementById("formUsuario");
-  const tablaUsuarios = document
-    .getElementById("tablaUsuarios")
-    .querySelector("tbody");
-  const buscarRutInput = document.getElementById("buscarRut");
-  const buscarRutButton = document.getElementById("buscarRutButton");
-  const themeToggleButton = document.getElementById("theme-toggle");
-  const themeIcon = document.getElementById("theme-icon");
-  const menuToggleButton = document.getElementById("menu-toggle");
-  const sidebar = document.querySelector(".sidebar");
-  const topbar = document.querySelector(".topbar");
-  const content = document.querySelector(".content");
-  const nombreEjemploSelect = document.getElementById("nombre-ejemplo");
+  const $form = $("#formUsuario");
+  const $tablaUsuarios = $("#tablaUsuarios tbody");
+  const $buscarRutInput = $("#buscarRut");
+  const $buscarRutButton = $("#buscarRutButton");
+  const $themeToggleButton = $("#theme-toggle");
+  const $themeIcon = $("#theme-icon");
+  const $menuToggleButton = $("#menu-toggle");
+  const $sidebar = $(".sidebar");
+  const $topbar = $(".topbar");
+  const $content = $(".content");
+  const $nombreEjemploSelect = $("#nombre-ejemplo");
 
   const nombresEjemplo = [
     "Ana López",
@@ -38,18 +36,20 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderTable(users) {
-    tablaUsuarios.innerHTML = "";
+    $tablaUsuarios.empty();
     users.forEach((user) => {
-      const newRow = tablaUsuarios.insertRow();
-      newRow.innerHTML = `
-              <td>${user.rut}</td>
-              <td>${user.nombre}</td>
-              <td>${user.apellido}</td>
-              <td>${user.correo}</td>
-              <td>${user.telefono}</td>
-              <td>${user.curso}</td>
-              <td>${user.nombreEjemplo}</td>
-          `;
+      const newRow = `
+        <tr>
+          <td>${user.rut}</td>
+          <td>${user.nombre}</td>
+          <td>${user.apellido}</td>
+          <td>${user.correo}</td>
+          <td>${user.telefono}</td>
+          <td>${user.curso}</td>
+          <td>${user.nombreEjemplo}</td>
+        </tr>
+      `;
+      $tablaUsuarios.append(newRow);
     });
   }
 
@@ -60,27 +60,24 @@ document.addEventListener("DOMContentLoaded", () => {
       (nombre) => !selectedNombres.includes(nombre)
     );
 
-    nombreEjemploSelect.innerHTML =
-      '<option value="">Seleccione un nombre</option>';
+    $nombreEjemploSelect
+      .empty()
+      .append('<option value="">Seleccione un nombre</option>');
     availableNombres.forEach((nombre) => {
-      const option = document.createElement("option");
-      option.value = nombre;
-      option.textContent = nombre;
-      nombreEjemploSelect.appendChild(option);
+      const option = $("<option></option>").val(nombre).text(nombre);
+      $nombreEjemploSelect.append(option);
     });
   }
 
   function toggleDarkMode() {
-    document.body.classList.toggle("dark-mode");
-    sidebar.classList.toggle("dark-mode");
-    topbar.classList.toggle("dark-mode");
-    content.classList.toggle("dark-mode");
-    if (document.body.classList.contains("dark-mode")) {
-      themeIcon.classList.remove("fa-moon");
-      themeIcon.classList.add("fa-sun");
+    $("body").toggleClass("dark-mode");
+    $sidebar.toggleClass("dark-mode");
+    $topbar.toggleClass("dark-mode");
+    $content.toggleClass("dark-mode");
+    if ($("body").hasClass("dark-mode")) {
+      $themeIcon.removeClass("fa-moon").addClass("fa-sun");
     } else {
-      themeIcon.classList.remove("fa-sun");
-      themeIcon.classList.add("fa-moon");
+      $themeIcon.removeClass("fa-sun").addClass("fa-moon");
     }
   }
 
@@ -88,85 +85,66 @@ document.addEventListener("DOMContentLoaded", () => {
   renderTable(users);
   updateNombreEjemploOptions();
 
-  themeToggleButton.addEventListener("click", toggleDarkMode);
+  $themeToggleButton.on("click", toggleDarkMode);
 
-  form.addEventListener("submit", (event) => {
+  $form.on("submit", (event) => {
     event.preventDefault();
 
-    const rut = document.getElementById("rut").value.trim();
-    const nombre = document.getElementById("nombre").value.trim().toLowerCase();
-    const apellido = document
-      .getElementById("apellido")
-      .value.trim()
-      .toLowerCase();
-    const correo = document.getElementById("correo").value.trim().toLowerCase();
-    const telefono = document.getElementById("telefono").value.trim();
-    const curso = document.getElementById("curso").value.trim();
-    const nombreEjemplo = document
-      .getElementById("nombre-ejemplo")
-      .value.trim();
+    const rut = $("#rut").val().trim();
+    const nombre = $("#nombre").val().trim().toLowerCase();
+    const apellido = $("#apellido").val().trim().toLowerCase();
+    const correo = $("#correo").val().trim().toLowerCase();
+    const telefono = $("#telefono").val().trim();
+    const curso = $("#curso").val().trim();
+    const nombreEjemplo = $("#nombre-ejemplo").val().trim();
 
     const rutRegex = /^[0-9]+[-|‐]{1}[0-9kK]{1}$/;
     const nombreApellidoRegex = /^[a-zA-Z\s]+$/;
     const correoRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const telefonoRegex = /^[0-9]{9}$/;
 
-    document
-      .querySelectorAll(".error-message")
-      .forEach((el) => (el.style.display = "none"));
+    $(".error-message").hide();
 
     let isValid = true;
 
     if (!rutRegex.test(rut)) {
-      document.getElementById("error-rut").textContent = "Rut inválido";
-      document.getElementById("error-rut").style.display = "block";
+      $("#error-rut").text("Rut inválido").show();
       isValid = false;
     } else {
       const rutExists = users.some((user) => user.rut === rut);
       if (rutExists) {
-        document.getElementById("error-rut").textContent = "Rut ya registrado";
-        document.getElementById("error-rut").style.display = "block";
+        $("#error-rut").text("Rut ya registrado").show();
         isValid = false;
       }
     }
 
     if (!nombreApellidoRegex.test(nombre)) {
-      document.getElementById("error-nombre").textContent = "Nombre inválido";
-      document.getElementById("error-nombre").style.display = "block";
+      $("#error-nombre").text("Nombre inválido").show();
       isValid = false;
     }
 
     if (!nombreApellidoRegex.test(apellido)) {
-      document.getElementById("error-apellido").textContent =
-        "Apellido inválido";
-      document.getElementById("error-apellido").style.display = "block";
+      $("#error-apellido").text("Apellido inválido").show();
       isValid = false;
     }
 
     if (!correoRegex.test(correo)) {
-      document.getElementById("error-correo").textContent = "Correo inválido";
-      document.getElementById("error-correo").style.display = "block";
+      $("#error-correo").text("Correo inválido").show();
       isValid = false;
     }
 
     if (!telefonoRegex.test(telefono)) {
-      document.getElementById("error-telefono").textContent =
-        "Teléfono inválido";
-      document.getElementById("error-telefono").style.display = "block";
+      $("#error-telefono").text("Teléfono inválido").show();
       isValid = false;
     }
 
     if (curso === "") {
-      document.getElementById("error-curso").textContent =
-        "Seleccione un curso";
-      document.getElementById("error-curso").style.display = "block";
+      $("#error-curso").text("Seleccione un curso").show();
       isValid = false;
     }
 
     if (nombreEjemplo === "") {
-      document.getElementById("error-nombre-ejemplo").textContent =
-        "Seleccione un nombre de ejemplo";
-      document.getElementById("error-nombre-ejemplo").style.display = "block";
+      $("#error-nombre-ejemplo").text("Seleccione un nombre de ejemplo").show();
       isValid = false;
     }
 
@@ -185,79 +163,72 @@ document.addEventListener("DOMContentLoaded", () => {
       saveToLocalStorage(users);
       renderTable(users);
       updateNombreEjemploOptions();
-      form.reset();
+      $form[0].reset();
     }
   });
 
-  buscarRutButton.addEventListener("click", (event) => {
+  $buscarRutButton.on("click", (event) => {
     event.preventDefault();
 
-    const buscarRut = buscarRutInput.value.trim();
+    const buscarRut = $buscarRutInput.val().trim();
     const rutRegex = /^[0-9]+[-|‐]{1}[0-9kK]{1}$/;
 
-    document
-      .querySelectorAll(".error-message")
-      .forEach((el) => (el.style.display = "none"));
+    $(".error-message").hide();
 
     if (!rutRegex.test(buscarRut)) {
-      document.getElementById("error-rut").textContent = "Rut inválido";
-      document.getElementById("error-rut").style.display = "block";
+      $("#error-rut").text("Rut inválido").show();
       return;
     }
 
     const user = users.find((user) => user.rut === buscarRut);
 
     if (user) {
-      tablaUsuarios.innerHTML = "";
-      const newRow = tablaUsuarios.insertRow();
-      newRow.innerHTML = `
-              <td>${user.rut}</td>
-              <td>${user.nombre}</td>
-              <td>${user.apellido}</td>
-              <td>${user.correo}</td>
-              <td>${user.telefono}</td>
-              <td>${user.curso}</td>
-              <td>${user.nombreEjemplo}</td>
-          `;
+      $tablaUsuarios.empty();
+      const newRow = `
+        <tr>
+          <td>${user.rut}</td>
+          <td>${user.nombre}</td>
+          <td>${user.apellido}</td>
+          <td>${user.correo}</td>
+          <td>${user.telefono}</td>
+          <td>${user.curso}</td>
+          <td>${user.nombreEjemplo}</td>
+        </tr>
+      `;
+      $tablaUsuarios.append(newRow);
     } else {
-      document.getElementById("rut").value = buscarRut;
-      document.getElementById("nombre").focus();
+      $("#rut").val(buscarRut).focus();
     }
   });
 
-  menuToggleButton.addEventListener("click", () => {
-    sidebar.classList.toggle("collapsed");
-    topbar.classList.toggle("collapsed");
-    content.classList.toggle("collapsed");
+  $menuToggleButton.on("click", () => {
+    $sidebar.toggleClass("collapsed");
+    $topbar.toggleClass("collapsed");
+    $content.toggleClass("collapsed");
   });
 
-  const links = document.querySelectorAll(".sidebar a");
+  const $links = $(".sidebar a");
 
   function handleNavigation(targetId) {
-    document.querySelectorAll(".content-section").forEach((section) => {
-      section.classList.add("hidden");
-    });
-    document.getElementById(targetId).classList.remove("hidden");
+    $(".content-section").addClass("hidden");
+    $(`#${targetId}`).removeClass("hidden");
   }
 
-  links.forEach((link) => {
-    link.addEventListener("click", function (event) {
-      event.preventDefault();
-      const targetId = this.getAttribute("href").substring(1);
-      history.pushState({ targetId }, "", `#${targetId}`);
-      handleNavigation(targetId);
+  $links.on("click", function (event) {
+    event.preventDefault();
+    const targetId = $(this).attr("href").substring(1);
+    history.pushState({ targetId }, "", `#${targetId}`);
+    handleNavigation(targetId);
 
-      if (targetId === "test-vocacional") {
-        const script = document.createElement("script");
-        script.src = "test-vocacional.js";
-        document.body.appendChild(script);
-      }
-    });
+    if (targetId === "test-vocacional") {
+      const script = $("<script></script>").attr("src", "test-vocacional.js");
+      $("body").append(script);
+    }
   });
 
-  window.addEventListener("popstate", (event) => {
-    if (event.state && event.state.targetId) {
-      handleNavigation(event.state.targetId);
+  $(window).on("popstate", (event) => {
+    if (event.originalEvent.state && event.originalEvent.state.targetId) {
+      handleNavigation(event.originalEvent.state.targetId);
     }
   });
 
@@ -266,12 +237,11 @@ document.addEventListener("DOMContentLoaded", () => {
     handleNavigation(targetId);
 
     if (targetId === "test-vocacional") {
-      const script = document.createElement("script");
-      script.src = "test-vocacional.js";
-      document.body.appendChild(script);
+      const script = $("<script></script>").attr("src", "test-vocacional.js");
+      $("body").append(script);
     }
   } else {
-    document.querySelector("#agregar-apoderado-link").click();
+    $("#agregar-apoderado-link").click();
   }
 
   function generateChart(ctx, type, data, options) {
@@ -335,19 +305,13 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
     };
 
-    const ctxIncidencias = document
-      .getElementById("chartIncidencias")
-      .getContext("2d");
+    const ctxIncidencias = $("#chartIncidencias").get(0).getContext("2d");
     generateChart(ctxIncidencias, "bar", incidenciasData);
 
-    const ctxVocacional = document
-      .getElementById("chartVocacional")
-      .getContext("2d");
+    const ctxVocacional = $("#chartVocacional").get(0).getContext("2d");
     generateChart(ctxVocacional, "bar", vocacionalData);
 
-    const ctxUsuarios = document
-      .getElementById("chartUsuarios")
-      .getContext("2d");
+    const ctxUsuarios = $("#chartUsuarios").get(0).getContext("2d");
     generateChart(ctxUsuarios, "bar", usuariosData);
   }
 
@@ -364,7 +328,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   async function fetchWeather(codes) {
-    const weatherInfo = document.getElementById("weather-info");
+    const $weatherInfo = $("#weather-info");
     let weatherDataList = [];
     try {
       const weatherPromises = codes.map(async (codigo) => {
@@ -397,9 +361,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
       weatherDataList = await Promise.all(weatherPromises);
-      weatherInfo.innerHTML = weatherDataList.join(" | ");
+      $weatherInfo.html(weatherDataList.join(" | "));
     } catch (error) {
-      weatherInfo.textContent = "No se pudo obtener la información del clima";
+      $weatherInfo.text("No se pudo obtener la información del clima");
       console.error("Error fetching weather data:", error);
     }
   }

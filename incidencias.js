@@ -1,6 +1,6 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const incidenciaForm = document.getElementById("incidenciaForm");
-  const incidenciasTableBody = document.getElementById("incidenciasTableBody");
+$(document).ready(() => {
+  const $incidenciaForm = $("#incidenciaForm");
+  const $incidenciasTableBody = $("#incidenciasTableBody");
 
   // Función para guardar incidencias en localStorage
   function saveIncidenciasToLocalStorage(incidencias) {
@@ -15,14 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Función para renderizar las incidencias en la tabla
   function renderIncidenciasTable(incidencias) {
-    incidenciasTableBody.innerHTML = "";
+    $incidenciasTableBody.empty();
     incidencias.forEach((incidencia) => {
-      const newRow = incidenciasTableBody.insertRow();
-      newRow.innerHTML = `
-                <td>${incidencia["nombre-colegio"]}</td>
-                <td>${incidencia["descripcion-incidencia"]}</td>
-                <td>${new Date(incidencia.fecha).toLocaleString()}</td>
-            `;
+      const newRow = `
+        <tr>
+          <td>${incidencia["nombre-colegio"]}</td>
+          <td>${incidencia["descripcion-incidencia"]}</td>
+          <td>${new Date(incidencia.fecha).toLocaleString()}</td>
+        </tr>
+      `;
+      $incidenciasTableBody.append(newRow);
     });
   }
 
@@ -31,16 +33,16 @@ document.addEventListener("DOMContentLoaded", () => {
   renderIncidenciasTable(incidencias);
 
   // Manejar el evento de envío del formulario de incidencias
-  incidenciaForm.addEventListener("submit", (event) => {
+  $incidenciaForm.on("submit", (event) => {
     event.preventDefault();
 
     const nuevaIncidencia = {
       fecha: new Date().toISOString(),
     };
 
-    const inputs = incidenciaForm.querySelectorAll("input, textarea, select");
-    inputs.forEach((input) => {
-      nuevaIncidencia[input.name] = input.value;
+    const inputs = $incidenciaForm.find("input, textarea, select");
+    inputs.each(function () {
+      nuevaIncidencia[this.name] = this.value;
     });
 
     incidencias.push(nuevaIncidencia);
@@ -48,6 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     saveIncidenciasToLocalStorage(incidencias);
     renderIncidenciasTable(incidencias);
 
-    incidenciaForm.reset();
+    $incidenciaForm[0].reset();
   });
 });

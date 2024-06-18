@@ -10,6 +10,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Incluir jQuery -->
   </head>
   <body>
     <div class="sidebar">
@@ -85,7 +87,6 @@
         </div>
         <div class="card content-section hidden" id="agregar-apoderado">
           <h2>Agregar Apoderado</h2>
-
           <div class="search-apoderado">
             <label for="buscarRut">Buscar por Rut:</label>
             <input
@@ -96,7 +97,6 @@
             />
             <button id="buscarRutButton" class="submit-button">Buscar</button>
           </div>
-
           <form id="formUsuario" class="form-vertical">
             <label for="rut">Rut:</label>
             <input
@@ -107,7 +107,6 @@
               required
             />
             <span class="error-message" id="error-rut"></span>
-
             <label for="nombre">Nombre:</label>
             <input
               type="text"
@@ -117,7 +116,6 @@
               required
             />
             <span class="error-message" id="error-nombre"></span>
-
             <label for="apellido">Apellido:</label>
             <input
               type="text"
@@ -127,7 +125,6 @@
               required
             />
             <span class="error-message" id="error-apellido"></span>
-
             <label for="correo">Correo:</label>
             <input
               type="email"
@@ -137,7 +134,6 @@
               required
             />
             <span class="error-message" id="error-correo"></span>
-
             <label for="telefono">Teléfono:</label>
             <input
               type="tel"
@@ -147,7 +143,6 @@
               required
             />
             <span class="error-message" id="error-telefono"></span>
-
             <label for="curso">Curso:</label>
             <select id="curso" name="curso" class="custom-input" required>
               <option value="">Seleccione un curso</option>
@@ -156,7 +151,6 @@
               <option value="Historia">Historia</option>
             </select>
             <span class="error-message" id="error-curso"></span>
-
             <label for="nombre-ejemplo">Nombre de Ejemplo:</label>
             <select
               id="nombre-ejemplo"
@@ -167,10 +161,8 @@
               <!-- Las opciones se llenarán dinámicamente -->
             </select>
             <span class="error-message" id="error-nombre-ejemplo"></span>
-
             <button type="submit" class="submit-button">Guardar</button>
           </form>
-
           <h2>Datos de Usuario</h2>
           <table id="tablaUsuarios" class="styled-table">
             <thead>

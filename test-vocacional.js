@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const testContainer = document.getElementById("test-container");
-  const questionContainer = document.getElementById("question-container");
-  const selectAnswer = document.getElementById("select-answer");
-  const nextBtn = document.getElementById("next-btn");
-  const resultContainer = document.getElementById("result-container");
-  const resultText = document.getElementById("result-text");
-  const retryBtn = document.getElementById("retry-btn");
+$(document).ready(() => {
+  const $testContainer = $("#test-container");
+  const $questionContainer = $("#question-container");
+  const $selectAnswer = $("#select-answer");
+  const $nextBtn = $("#next-btn");
+  const $resultContainer = $("#result-container");
+  const $resultText = $("#result-text");
+  const $retryBtn = $("#retry-btn");
 
   const questions = [
     "En una escala del 1 al 3, ¿cuánta experiencia tienes en lenguajes de programación?",
@@ -24,22 +24,22 @@ document.addEventListener("DOMContentLoaded", () => {
   let selectedStudent = "";
 
   function loadQuestion(index) {
-    questionContainer.innerHTML = `<p>${questions[index]}</p>`;
-    selectAnswer.innerHTML = `
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-        `;
+    $questionContainer.html(`<p>${questions[index]}</p>`);
+    $selectAnswer.html(`
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    `);
   }
 
   function showResult() {
-    resultContainer.classList.remove("hidden");
-    testContainer.classList.add("hidden");
-    resultText.textContent = `Tus respuestas: ${answers.join(", ")}`;
+    $resultContainer.removeClass("hidden");
+    $testContainer.addClass("hidden");
+    $resultText.text(`Tus respuestas: ${answers.join(", ")}`);
   }
 
-  nextBtn.addEventListener("click", () => {
-    const answer = selectAnswer.value;
+  $nextBtn.on("click", () => {
+    const answer = $selectAnswer.val();
     if (answer) {
       answers.push(answer);
       currentQuestionIndex++;
@@ -64,34 +64,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  retryBtn.addEventListener("click", () => {
+  $retryBtn.on("click", () => {
     currentQuestionIndex = 0;
     answers = [];
     loadQuestion(currentQuestionIndex);
-    resultContainer.classList.add("hidden");
-    testContainer.classList.remove("hidden");
+    $resultContainer.addClass("hidden");
+    $testContainer.removeClass("hidden");
   });
 
   // Initialize the student selection
-  const studentSelect = document.createElement("select");
-  studentSelect.id = "student-select";
-  studentSelect.innerHTML = `
-        <option value="">Selecciona un alumno</option>
-        <option value="Ana López">Ana López</option>
-        <option value="Carlos Pérez">Carlos Pérez</option>
-        <option value="María Rodríguez">María Rodríguez</option>
-        <option value="Luis García">Luis García</option>
-        <option value="Elena Fernández">Elena Fernández</option>
-        <option value="Jorge Martínez">Jorge Martínez</option>
-        <option value="Sofía Sánchez">Sofía Sánchez</option>
-        <option value="Miguel Gómez">Miguel Gómez</option>
-        <option value="Laura Díaz">Laura Díaz</option>
-        <option value="Raúl Torres">Raúl Torres</option>
-    `;
-  testContainer.prepend(studentSelect);
+  const $studentSelect = $('<select id="student-select"></select>');
+  $studentSelect.html(`
+    <option value="">Selecciona un alumno</option>
+    <option value="Ana López">Ana López</option>
+    <option value="Carlos Pérez">Carlos Pérez</option>
+    <option value="María Rodríguez">María Rodríguez</option>
+    <option value="Luis García">Luis García</option>
+    <option value="Elena Fernández">Elena Fernández</option>
+    <option value="Jorge Martínez">Jorge Martínez</option>
+    <option value="Sofía Sánchez">Sofía Sánchez</option>
+    <option value="Miguel Gómez">Miguel Gómez</option>
+    <option value="Laura Díaz">Laura Díaz</option>
+    <option value="Raúl Torres">Raúl Torres</option>
+  `);
+  $testContainer.prepend($studentSelect);
 
-  studentSelect.addEventListener("change", () => {
-    selectedStudent = studentSelect.value;
+  $studentSelect.on("change", () => {
+    selectedStudent = $studentSelect.val();
   });
 
   // Initialize the first question
