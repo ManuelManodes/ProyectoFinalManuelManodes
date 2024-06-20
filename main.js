@@ -1,6 +1,4 @@
 $(document).ready(() => {
-  console.log("JavaScript is loaded and ready to add functionality.");
-
   const $form = $("#formUsuario");
   const $tablaUsuarios = $("#tablaUsuarios tbody");
   const $buscarRutInput = $("#buscarRut");
@@ -11,8 +9,8 @@ $(document).ready(() => {
   const $sidebar = $(".sidebar");
   const $topbar = $(".topbar");
   const $content = $(".content");
-  const $footer = $(".footer"); // Agregar el footer
   const $nombreEjemploSelect = $("#nombre-ejemplo-usuario");
+  const $mainInput = $("#main-input");
 
   const nombresEjemplo = [
     "Ana López",
@@ -70,18 +68,34 @@ $(document).ready(() => {
     });
   }
 
-  function toggleDarkMode() {
-    $("body").toggleClass("dark-mode");
-    $sidebar.toggleClass("dark-mode");
-    $topbar.toggleClass("dark-mode");
-    $content.toggleClass("dark-mode");
-    $footer.toggleClass("dark-mode");
-    if ($("body").hasClass("dark-mode")) {
-      $themeIcon.removeClass("fa-moon").addClass("fa-sun");
-    } else {
-      $themeIcon.removeClass("fa-sun").addClass("fa-moon");
+  function highlightText(text, element) {
+    if (text === "") {
+      return element.html(element.text());
     }
+
+    const regex = new RegExp(`(${text})`, "gi");
+    const newHtml = element
+      .html()
+      .replace(regex, "<span class='highlight'>$1</span>");
+    element.html(newHtml);
   }
+
+  function searchAndHighlight(text) {
+    $("table tbody tr").each(function () {
+      $(this)
+        .find("td")
+        .each(function () {
+          const cell = $(this);
+          cell.html(cell.text()); // Reset previous highlights
+          highlightText(text, cell);
+        });
+    });
+  }
+
+  $mainInput.on("input", function () {
+    const searchText = $(this).val().trim();
+    searchAndHighlight(searchText);
+  });
 
   const users = loadFromLocalStorage();
   renderTable(users);
@@ -166,12 +180,6 @@ $(document).ready(() => {
       renderTable(users);
       updateNombreEjemploOptions();
       $form[0].reset();
-      Swal.fire({
-        title: "Usuario Guardado",
-        text: "El usuario ha sido guardado exitosamente.",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
     }
   });
 
@@ -213,7 +221,6 @@ $(document).ready(() => {
     $sidebar.toggleClass("collapsed");
     $topbar.toggleClass("collapsed");
     $content.toggleClass("collapsed");
-    $footer.toggleClass("collapsed"); // Agregar el footer
   });
 
   const $links = $(".sidebar a");
@@ -253,6 +260,18 @@ $(document).ready(() => {
     $("#agregar-apoderado-link").click();
   }
 
+  function toggleDarkMode() {
+    $("body").toggleClass("dark-mode");
+    $sidebar.toggleClass("dark-mode");
+    $topbar.toggleClass("dark-mode");
+    $content.toggleClass("dark-mode");
+    if ($("body").hasClass("dark-mode")) {
+      $themeIcon.removeClass("fa-moon").addClass("fa-sun");
+    } else {
+      $themeIcon.removeClass("fa-sun").addClass("fa-moon");
+    }
+  }
+
   function generateChart(ctx, type, data, options) {
     return new Chart(ctx, {
       type: type,
@@ -286,8 +305,15 @@ $(document).ready(() => {
         {
           label: "Respuestas promedio",
           data: Object.values(studentResults).map((responses) => {
-            const sum = responses.reduce((a, b) => a + Number(b), 0);
-            return sum / responses.length;
+            if (Array.isArray(responses)) {
+              const sum = responses.reduce((a, b) => a + Number(b), 0);
+              return sum / responses.length;
+            } else {
+              console.error(
+                `Expected responses to be an array but got ${responses}`
+              );
+              return 0; // o algún valor por defecto
+            }
           }),
           backgroundColor: "rgba(153, 102, 255, 0.2)",
           borderColor: "rgba(153, 102, 255, 1)",
@@ -353,11 +379,11 @@ $(document).ready(() => {
             const estadoIcono =
               estadoIconos[data.Estado] || "fa-question-circle";
             return `
-              <span>${data.Estacion}</span>
-              <span><i class="fas fa-thermometer-half"></i> ${data.Temp}°C</span>
-              <span><i class="fas fa-tint"></i> ${data.Humedad}%</span>
-              <span><i class="fas ${estadoIcono}"></i> ${data.Estado}</span>
-            `;
+                          <span>${data.Estacion}</span>
+                          <span><i class="fas fa-thermometer-half"></i> ${data.Temp}°C</span>
+                          <span><i class="fas fa-tint"></i> ${data.Humedad}%</span>
+                          <span><i class="fas ${estadoIcono}"></i> ${data.Estado}</span>
+                      `;
           } else {
             return "No se pudo obtener la información del clima";
           }
@@ -401,46 +427,4 @@ $(document).ready(() => {
     "SCIP",
   ];
   fetchWeather(codes);
-
-  // Highlight search input text
-  const $mainInput = $("#main-input");
-
-  function highlightText(textToHighlight) {
-    const regex = new RegExp(`(${textToHighlight})`, "gi");
-    $(".content-section").each(function () {
-      $(this)
-        .find("*")
-        .contents()
-        .each(function () {
-          if (this.nodeType === 3 && this.nodeValue.match(regex)) {
-            const parent = this.parentNode;
-            const highlightedText = this.nodeValue.replace(
-              regex,
-              '<span class="highlight">$1</span>'
-            );
-            const wrapper = document.createElement("span");
-            wrapper.innerHTML = highlightedText;
-            while (wrapper.firstChild) {
-              parent.insertBefore(wrapper.firstChild, this);
-            }
-            parent.removeChild(this);
-          }
-        });
-    });
-  }
-
-  function removeHighlights() {
-    $(".highlight").each(function () {
-      const text = $(this).text();
-      $(this).replaceWith(text);
-    });
-  }
-
-  $mainInput.on("input", function () {
-    const searchText = $(this).val().trim();
-    removeHighlights();
-    if (searchText) {
-      highlightText(searchText);
-    }
-  });
 });

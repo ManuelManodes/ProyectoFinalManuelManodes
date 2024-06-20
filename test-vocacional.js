@@ -26,19 +26,42 @@ $(document).ready(() => {
   function loadQuestion(index) {
     $questionContainer.html(`<p>${questions[index]}</p>`);
     $selectAnswer.html(`
+      <option value="">Selecciona una respuesta</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
     `);
+    $selectAnswer.val(""); // Reset the answer selection
+  }
+
+  function saveStudentResults(student, responses) {
+    const studentResults =
+      JSON.parse(localStorage.getItem("studentResults")) || {};
+    studentResults[student] = responses;
+    localStorage.setItem("studentResults", JSON.stringify(studentResults));
+  }
+
+  function determineResult(answers) {
+    const sum = answers.reduce((total, answer) => total + parseInt(answer), 0);
+    const average = sum / answers.length;
+
+    if (average <= 1.5) {
+      return "Parece que tienes un interés bajo en programación. Podrías considerar explorar otras áreas.";
+    } else if (average <= 2.5) {
+      return "Tienes un interés moderado en programación. Podrías beneficiarte de cursos adicionales y proyectos prácticos.";
+    } else {
+      return "Tienes un alto interés en programación. ¡Podrías considerar una carrera en el desarrollo de software!";
+    }
   }
 
   function showResult() {
+    const resultText = determineResult(answers);
     $resultContainer.removeClass("hidden");
     $testContainer.addClass("hidden");
-    $resultText.text(`Tus respuestas: ${answers.join(", ")}`);
+    $resultText.text(resultText);
     Swal.fire({
       title: "Test Completado",
-      text: "Has completado el test vocacional.",
+      text: resultText,
       icon: "success",
       confirmButtonText: "OK",
     });
@@ -46,20 +69,14 @@ $(document).ready(() => {
 
   $nextBtn.on("click", () => {
     const answer = $selectAnswer.val();
-    if (answer) {
-      answers.push(answer);
+    if (answer && answer !== "") {
+      answers.push(parseInt(answer));
       currentQuestionIndex++;
       if (currentQuestionIndex < questions.length) {
         loadQuestion(currentQuestionIndex);
       } else {
         if (selectedStudent) {
-          const studentResults =
-            JSON.parse(localStorage.getItem("studentResults")) || {};
-          studentResults[selectedStudent] = answers;
-          localStorage.setItem(
-            "studentResults",
-            JSON.stringify(studentResults)
-          );
+          saveStudentResults(selectedStudent, answers);
           showResult();
         } else {
           Swal.fire({
@@ -70,14 +87,14 @@ $(document).ready(() => {
           });
         }
       }
-    } else {
-      Swal.fire({
-        title: "Error",
-        text: "Por favor, selecciona una respuesta.",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-    }
+    } //else {
+    //Swal.fire({
+    // title: "Error",
+    //text: "Por favor, selecciona una respuesta.",
+    //icon: "error",
+    //confirmButtonText: "OK",
+    //});
+    // }
   });
 
   $retryBtn.on("click", () => {
