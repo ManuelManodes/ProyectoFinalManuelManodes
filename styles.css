@@ -249,7 +249,7 @@ body.dark-mode .card {
 
 /* Estilos para los inputs */
 .custom-input {
-  width: 90%;
+  width: 100%;
   padding: 8px;
   font-size: 14px;
   border: none;
