@@ -11,28 +11,28 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Incluir jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <div class="sidebar">
       <div class="sidebar-header">
         <img src="images/logo.png" alt="Logo" class="sidebar-logo" />
       </div>
-      <a href="#inicio" id="inicio-link"
-        ><i class="fas fa-home"></i> <span class="link-text">Inicio</span></a
-      >
-      <a href="#test-vocacional" id="test-vocacional-link"
-        ><i class="fas fa-book-open-reader"></i>
-        <span class="link-text">Test vocacional</span></a
-      >
-      <a href="#agregar-apoderado" id="agregar-apoderado-link"
-        ><i class="fas fa-id-card"></i>
-        <span class="link-text">Agregar Apoderado</span></a
-      >
-      <a href="#incidencias" id="incidencias-link"
-        ><i class="fas fa-list-check"></i>
-        <span class="link-text">Incidencias</span></a
-      >
+      <a href="#inicio" id="inicio-link">
+        <i class="fas fa-home"></i> <span class="link-text">Inicio</span>
+      </a>
+      <a href="#test-vocacional" id="test-vocacional-link">
+        <i class="fas fa-book-open-reader"></i>
+        <span class="link-text">Test vocacional</span>
+      </a>
+      <a href="#agregar-apoderado" id="agregar-apoderado-link">
+        <i class="fas fa-id-card"></i>
+        <span class="link-text">Agregar Apoderado</span>
+      </a>
+      <a href="#incidencias" id="incidencias-link">
+        <i class="fas fa-list-check"></i>
+        <span class="link-text">Incidencias</span>
+      </a>
     </div>
     <div class="topbar">
       <button id="menu-toggle">
@@ -75,8 +75,21 @@
         <div class="card content-section hidden" id="test-vocacional">
           <h2>Test Vocacional</h2>
           <div id="test-container">
-            <select id="select-answer"></select>
+            <select id="student-select">
+              <option value="">Selecciona un alumno</option>
+              <option value="Ana López">Ana López</option>
+              <option value="Carlos Pérez">Carlos Pérez</option>
+              <option value="María Rodríguez">María Rodríguez</option>
+              <option value="Luis García">Luis García</option>
+              <option value="Elena Fernández">Elena Fernández</option>
+              <option value="Jorge Martínez">Jorge Martínez</option>
+              <option value="Sofía Sánchez">Sofía Sánchez</option>
+              <option value="Miguel Gómez">Miguel Gómez</option>
+              <option value="Laura Díaz">Laura Díaz</option>
+              <option value="Raúl Torres">Raúl Torres</option>
+            </select>
             <div id="question-container"></div>
+            <select id="select-answer"></select>
             <button id="next-btn">Siguiente</button>
           </div>
           <div id="result-container" class="hidden">
@@ -98,62 +111,67 @@
             <button id="buscarRutButton" class="submit-button">Buscar</button>
           </div>
           <form id="formUsuario" class="form-vertical">
-            <label for="rut">Rut:</label>
+            <label for="rut-usuario">Rut:</label>
             <input
               type="text"
-              id="rut"
+              id="rut-usuario"
               name="rut"
               class="custom-input"
               required
             />
             <span class="error-message" id="error-rut"></span>
-            <label for="nombre">Nombre:</label>
+            <label for="nombre-usuario">Nombre:</label>
             <input
               type="text"
-              id="nombre"
+              id="nombre-usuario"
               name="nombre"
               class="custom-input"
               required
             />
             <span class="error-message" id="error-nombre"></span>
-            <label for="apellido">Apellido:</label>
+            <label for="apellido-usuario">Apellido:</label>
             <input
               type="text"
-              id="apellido"
+              id="apellido-usuario"
               name="apellido"
               class="custom-input"
               required
             />
             <span class="error-message" id="error-apellido"></span>
-            <label for="correo">Correo:</label>
+            <label for="correo-usuario">Correo:</label>
             <input
               type="email"
-              id="correo"
+              id="correo-usuario"
               name="correo"
               class="custom-input"
               required
             />
             <span class="error-message" id="error-correo"></span>
-            <label for="telefono">Teléfono:</label>
+            <label for="telefono-usuario">Teléfono:</label>
             <input
               type="tel"
-              id="telefono"
+              id="telefono-usuario"
               name="telefono"
               class="custom-input"
               required
             />
             <span class="error-message" id="error-telefono"></span>
-            <label for="curso">Curso:</label>
-            <select id="curso" name="curso" class="custom-input" required>
+            <label for="curso-usuario">Curso:</label>
+            <select
+              id="curso-usuario"
+              name="curso"
+              class="custom-input"
+              required
+            >
               <option value="">Seleccione un curso</option>
               <option value="Matemáticas">Matemáticas</option>
               <option value="Ciencias">Ciencias</option>
               <option value="Historia">Historia</option>
             </select>
             <span class="error-message" id="error-curso"></span>
-            <label for="nombre-ejemplo">Nombre de Ejemplo:</label>
+            <label for="nombre-ejemplo-usuario">Nombre de Ejemplo:</label>
             <select
-              id="nombre-ejemplo"
+              id="nombre-ejemplo-usuario"
               name="nombre-ejemplo"
               class="custom-input"
               required

@@ -249,7 +249,7 @@ body.dark-mode .card {
 
 /* Estilos para los inputs */
 .custom-input {
-  width: 100%;
+  width: 90%;
   padding: 8px;
   font-size: 14px;
   border: none;
@@ -621,4 +621,113 @@ canvas {
   100% {
     transform: translateX(-100%);
   }
+}
+.icon-spacing {
+  margin-right: 16px; /* Ajusta el valor según el espacio deseado */
+}
+
+/* Estilos para el footer */
+.footer {
+  width: calc(
+    100% - 180px
+  ); /* Ajusta el ancho del footer para que considere el sidebar */
+  margin-left: 180px; /* Ajusta el margen izquierdo del footer */
+  background-color: #2f3b47;
+  color: #ccd7df;
+  text-align: center;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  transition: margin-left 0.3s, width 0.3s, background-color 0.3s, color 0.3s;
+}
+
+.footer.collapsed {
+  width: calc(
+    100% - 50px
+  ); /* Ajusta el ancho del footer cuando el sidebar está colapsado */
+  margin-left: 50px;
+}
+
+body.dark-mode .footer {
+  background-color: #1e252a;
+  color: #e0e0e0;
+}
+
+.footer .footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer .footer-section {
+  flex: 1;
+  padding: 20px;
+}
+
+.footer .footer-section h2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.footer .footer-section p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer .footer-section a {
+  color: #009879;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer .footer-section a:hover {
+  color: #007a63;
+}
+
+.footer .footer-bottom {
+  text-align: center;
+  padding: 10px;
+  background-color: #24292e;
+  border-top: 1px solid #444;
+  font-size: 14px;
+  color: #e0e0e0;
+}
+
+.footer .footer-section .contact p {
+  display: flex;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.footer .footer-section .contact p i {
+  margin-right: 10px;
+}
+
+/* Footer dark mode */
+body.dark-mode .footer .footer-bottom {
+  background-color: #161b1f;
+}
+
+body.dark-mode .footer .footer-section a {
+  color: #a1c1df;
+}
+
+body.dark-mode .footer .footer-section a:hover {
+  color: #d0e4f5;
+}
+
+/* Footer Responsivo */
+@media (max-width: 768px) {
+  .footer .footer-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer .footer-section {
+    padding: 10px;
+    text-align: center;
+  }
+}
+.highlight {
+  background-color: yellow;
 }

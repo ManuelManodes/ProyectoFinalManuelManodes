@@ -51,5 +51,11 @@ $(document).ready(() => {
     renderIncidenciasTable(incidencias);
 
     $incidenciaForm[0].reset();
+    Swal.fire({
+      title: "Incidencia Registrada",
+      text: "La incidencia ha sido registrada exitosamente.",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
   });
 });

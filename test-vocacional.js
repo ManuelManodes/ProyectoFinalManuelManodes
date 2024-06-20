@@ -36,6 +36,12 @@ $(document).ready(() => {
     $resultContainer.removeClass("hidden");
     $testContainer.addClass("hidden");
     $resultText.text(`Tus respuestas: ${answers.join(", ")}`);
+    Swal.fire({
+      title: "Test Completado",
+      text: "Has completado el test vocacional.",
+      icon: "success",
+      confirmButtonText: "OK",
+    });
   }
 
   $nextBtn.on("click", () => {
@@ -56,11 +62,21 @@ $(document).ready(() => {
           );
           showResult();
         } else {
-          alert("Por favor, selecciona un alumno.");
+          Swal.fire({
+            title: "Error",
+            text: "Por favor, selecciona un alumno.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
         }
       }
     } else {
-      alert("Por favor, selecciona una respuesta.");
+      Swal.fire({
+        title: "Error",
+        text: "Por favor, selecciona una respuesta.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     }
   });
 
@@ -72,22 +88,7 @@ $(document).ready(() => {
     $testContainer.removeClass("hidden");
   });
 
-  // Initialize the student selection
-  const $studentSelect = $('<select id="student-select"></select>');
-  $studentSelect.html(`
-    <option value="">Selecciona un alumno</option>
-    <option value="Ana López">Ana López</option>
-    <option value="Carlos Pérez">Carlos Pérez</option>
-    <option value="María Rodríguez">María Rodríguez</option>
-    <option value="Luis García">Luis García</option>
-    <option value="Elena Fernández">Elena Fernández</option>
-    <option value="Jorge Martínez">Jorge Martínez</option>
-    <option value="Sofía Sánchez">Sofía Sánchez</option>
-    <option value="Miguel Gómez">Miguel Gómez</option>
-    <option value="Laura Díaz">Laura Díaz</option>
-    <option value="Raúl Torres">Raúl Torres</option>
-  `);
-  $testContainer.prepend($studentSelect);
+  const $studentSelect = $("#student-select");
 
   $studentSelect.on("change", () => {
     selectedStudent = $studentSelect.val();

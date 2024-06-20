@@ -11,7 +11,8 @@ $(document).ready(() => {
   const $sidebar = $(".sidebar");
   const $topbar = $(".topbar");
   const $content = $(".content");
-  const $nombreEjemploSelect = $("#nombre-ejemplo");
+  const $footer = $(".footer"); // Agregar el footer
+  const $nombreEjemploSelect = $("#nombre-ejemplo-usuario");
 
   const nombresEjemplo = [
     "Ana López",
@@ -74,6 +75,7 @@ $(document).ready(() => {
     $sidebar.toggleClass("dark-mode");
     $topbar.toggleClass("dark-mode");
     $content.toggleClass("dark-mode");
+    $footer.toggleClass("dark-mode");
     if ($("body").hasClass("dark-mode")) {
       $themeIcon.removeClass("fa-moon").addClass("fa-sun");
     } else {
@@ -90,13 +92,13 @@ $(document).ready(() => {
   $form.on("submit", (event) => {
     event.preventDefault();
 
-    const rut = $("#rut").val().trim();
-    const nombre = $("#nombre").val().trim().toLowerCase();
-    const apellido = $("#apellido").val().trim().toLowerCase();
-    const correo = $("#correo").val().trim().toLowerCase();
-    const telefono = $("#telefono").val().trim();
-    const curso = $("#curso").val().trim();
-    const nombreEjemplo = $("#nombre-ejemplo").val().trim();
+    const rut = $("#rut-usuario").val().trim();
+    const nombre = $("#nombre-usuario").val().trim().toLowerCase();
+    const apellido = $("#apellido-usuario").val().trim().toLowerCase();
+    const correo = $("#correo-usuario").val().trim().toLowerCase();
+    const telefono = $("#telefono-usuario").val().trim();
+    const curso = $("#curso-usuario").val().trim();
+    const nombreEjemplo = $("#nombre-ejemplo-usuario").val().trim();
 
     const rutRegex = /^[0-9]+[-|‐]{1}[0-9kK]{1}$/;
     const nombreApellidoRegex = /^[a-zA-Z\s]+$/;
@@ -164,6 +166,12 @@ $(document).ready(() => {
       renderTable(users);
       updateNombreEjemploOptions();
       $form[0].reset();
+      Swal.fire({
+        title: "Usuario Guardado",
+        text: "El usuario ha sido guardado exitosamente.",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
     }
   });
 
@@ -197,7 +205,7 @@ $(document).ready(() => {
       `;
       $tablaUsuarios.append(newRow);
     } else {
-      $("#rut").val(buscarRut).focus();
+      $("#rut-usuario").val(buscarRut).focus();
     }
   });
 
@@ -205,6 +213,7 @@ $(document).ready(() => {
     $sidebar.toggleClass("collapsed");
     $topbar.toggleClass("collapsed");
     $content.toggleClass("collapsed");
+    $footer.toggleClass("collapsed"); // Agregar el footer
   });
 
   const $links = $(".sidebar a");
@@ -392,4 +401,46 @@ $(document).ready(() => {
     "SCIP",
   ];
   fetchWeather(codes);
+
+  // Highlight search input text
+  const $mainInput = $("#main-input");
+
+  function highlightText(textToHighlight) {
+    const regex = new RegExp(`(${textToHighlight})`, "gi");
+    $(".content-section").each(function () {
+      $(this)
+        .find("*")
+        .contents()
+        .each(function () {
+          if (this.nodeType === 3 && this.nodeValue.match(regex)) {
+            const parent = this.parentNode;
+            const highlightedText = this.nodeValue.replace(
+              regex,
+              '<span class="highlight">$1</span>'
+            );
+            const wrapper = document.createElement("span");
+            wrapper.innerHTML = highlightedText;
+            while (wrapper.firstChild) {
+              parent.insertBefore(wrapper.firstChild, this);
+            }
+            parent.removeChild(this);
+          }
+        });
+    });
+  }
+
+  function removeHighlights() {
+    $(".highlight").each(function () {
+      const text = $(this).text();
+      $(this).replaceWith(text);
+    });
+  }
+
+  $mainInput.on("input", function () {
+    const searchText = $(this).val().trim();
+    removeHighlights();
+    if (searchText) {
+      highlightText(searchText);
+    }
+  });
 });
